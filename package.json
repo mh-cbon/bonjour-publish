@@ -1,0 +1,33 @@
+{
+  "name": "@mh-cbon/bonjour-publish",
+  "version": "1.0.0",
+  "description": "Publish a service on bonjour",
+  "main": "index.js",
+  "bin": {
+    "bonjour-publish": "./index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mh-cbon/bonjour-publish.git"
+  },
+  "keywords": [
+    "bonjour",
+    "publish",
+    "announce"
+  ],
+  "author": "mh-cbon <mh-cbon@users.noreply.github.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mh-cbon/bonjour-publish/issues"
+  },
+  "homepage": "https://github.com/mh-cbon/bonjour-publish#readme",
+  "dependencies": {
+    "@maboiteaspam/set-verbosity": "^2.0.3",
+    "@maboiteaspam/show-help": "^3.0.0",
+    "bonjour": "^3.2.0",
+    "minimist": "^1.2.0"
+  }
+}

@@ -19,7 +19,7 @@ ctrl+c to quit
 
     Usage
 
-      bonjour-publish --host=127.0.0.1 --port=8088 --type=[http/tcp]  "Title of the server"
+      bonjour-publish --host=127.0.0.1 --port=8088 --type=some  "Title of the server"
 
     Options
 
@@ -35,3 +35,4 @@ ctrl+c to quit
 # read more
 
 - https://github.com/watson/bonjour
+- https://github.com/watson/bonjour-browser

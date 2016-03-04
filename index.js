@@ -4,7 +4,7 @@ function usage () {/*
 
 Usage
 
-  bonjour-publish --host=127.0.0.1 --port=8088 --type=[http/tcp] "title of the server"
+  bonjour-publish --host=127.0.0.1 --port=8088 --type=some "title of the server"
 
 Options
 

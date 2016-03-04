@@ -22,12 +22,12 @@ var argv  = require('minimist')(process.argv.slice(2));
 var help  = require('@maboiteaspam/show-help')(usage, argv.h||argv.help, pkg)
 var debug = require('@maboiteaspam/set-verbosity')(pkg.name, argv.v || argv.verbose);
 
-const host = argv.host || argv.H || '127.0.0.1';
+const host = argv.host || argv.H || false;
 const port = argv.port || argv.P || false;
 const type = argv.type || argv.T || false;
 const title = argv['_'].length && argv['_'][0] || "nop, no title set";
 
-(!host || !port || !type) && help.print(usage, pkg) && help.die(
+(!port && !type) && help.print(usage, pkg) && help.die(
   "Wrong invokation"
 );
 
@@ -36,7 +36,9 @@ console.log("Announce '%s' on %s:%s as %s", title, host, port, type)
 var bonjour = require('bonjour')()
 
 // advertise your server
-bonjour.publish({ name: title, type: type, port: port, host: host })
+var opts = { name: title, type: type, port: port, host: host };
+if (host) opts.host = host;
+bonjour.publish(opts)
 
 var tearDown = function (then) {
   bonjour.destroy();

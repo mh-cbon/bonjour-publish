@@ -6,7 +6,7 @@ Publish a service on bonjour
 ```
 git clone https://github.com/mh-cbon/bonjour-publish.git
 cd bonjour-publish
-npm link . -g --local
+npm link . --local
 bonjour-publish -H 127.0.0.1 -P 8088 -T rc "Title of the server"
 ...
 ctrl+c to quit

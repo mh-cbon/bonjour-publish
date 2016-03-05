@@ -13,7 +13,7 @@ Options
   --type | -T       Type of interface provided by your server
   --multicast | -M  Use udp multicasting
   --interface | -I  Explicitly specify a network interface. Defaults to all.
-  --udpport | -U    Set the udp port
+  --udpport         Set the udp port
   --ip              Set the udp IP
   --ttl | -T        Set the multicast TTL
   --loopback | -L   Receive your own packets

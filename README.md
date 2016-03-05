@@ -37,14 +37,19 @@ ctrl+c to quit
       --verbose | -v    Set verbosity. Defaults to * Pass in modules name to debug.
 
     Examples
-      bonjour-publish -H 127.0.0.1 -P 8088 -T rc "hello!"
+      bonjour-publish -H 127.0.0.1 -P 8088 -T http "hello!"
       bonjour-publish -H 127.0.0.1 -P 8088 -T http "I love you,"
       bonjour-publish -L -H 127.0.0.1 -P 8088 -T http "Could you give me your name ?"
       bonjour-publish -L -R -P 8088 -T http "doors"
       bonjour-publish -L -R -M -I 192.168.0.2 -P 8088 -T http "doors"
+
+    Read more
+      Service type must be one described at
+      http://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.xhtml
 
 # read more
 
 - https://github.com/watson/bonjour
 - https://github.com/mafintosh/multicast-dns
 - https://github.com/watson/bonjour-browser
+- http://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.xhtml

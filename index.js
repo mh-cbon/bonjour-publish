@@ -28,6 +28,10 @@ Examples
   bonjour-publish -L -R -P 8088 -T http "doors"
   bonjour-publish -L -R -M -I 192.168.0.2 -P 8088 -T http "doors"
 
+Read more
+  Service type must be one described at
+  http://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.xhtml
+
 */}
 var pkg   = require('./package.json')
 var argv  = require('minimist')(process.argv.slice(2));

@@ -18,8 +18,8 @@ Options
   --udpip           Set the UDP IP (224.0.0.251)
   --ttl | -T        Set the multicast TTL (255)
   --loopback | -L   Receive your own packets
-  --reuseAddr | -R  Type of interface provided by your server
-  --verbose | -v    Set the reuseAddr on the socket (node >=0.11.13)
+  --reuseAddr | -R  Set the reuseAddr on the socket (node >=0.11.13)
+  --verbose | -v    Set verbosity. Defaults to * Pass in modules name to debug.
 
 Examples
   bonjour-publish -H 127.0.0.1 -P 8088 -T rc "hello!"

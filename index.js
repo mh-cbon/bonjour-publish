@@ -35,17 +35,17 @@ var help  = require('@maboiteaspam/show-help')(usage, argv.h||argv.help, pkg)
 var debug = require('@maboiteaspam/set-verbosity')(pkg.name, argv.v || argv.verbose);
 
 // bonjour options
-const host      = argv.host || argv.H || false;
+const host      = argv.host || argv.H || '';
 const port      = argv.port || argv.P || false;
 const type      = argv.type || argv.T || false;
 const title     = argv['_'].length && argv['_'][0] || "nop, no title set";
 
 // mdns options
-const mcast     = argv.multicast || argv.M || null;
+const mcast     = argv.multicast || argv.M || false;
 const iface     = argv.interface || argv.I || null;
-const uPort     = argv.udpport || null;
+const uPort     = (argv.udpport && parseInt(argv.udpport)) || null;
 const uIP       = argv.udpip || null;
-const TTL       = argv.ttl || argv.T || null;
+const TTL       = (argv.ttl && parseInt(argv.ttl)) || (argv.T && parseInt(argv.T)) || null;
 const loopback  = argv.loopback || argv.L || null;
 const reuseAddr = argv.reuseAddr || argv.R || null;
 
@@ -63,6 +63,8 @@ if (uIP)        mdnsOpts.ip         = uIP;
 if (TTL)        mdnsOpts.ttl        = TTL;
 if (loopback)   mdnsOpts.loopback   = loopback;
 if (reuseAddr)  mdnsOpts.reuseAddr  = reuseAddr;
+
+console.log("Options %j", mdnsOpts)
 
 var bonjour = require('bonjour')(mdnsOpts);
 

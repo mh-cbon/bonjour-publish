@@ -37,6 +37,7 @@ Examples
   bonjour-publish -L -H 127.0.0.1 -P 8088 -T http "Could you give me your name ?"
   bonjour-publish -L -R -P 8088 -T http "doors"
   bonjour-publish -L -R -M -I 192.168.0.2 -P 8088 -T http "doors"
+  bonjour-publish --txt '{"password":123}' -P 8088 -T http "doors"
 
 Read more
   Service type must be one described at

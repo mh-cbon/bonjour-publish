@@ -1,17 +1,26 @@
 #!/usr/bin/env node
 
 function usage () {/*
-
 Usage
 
-  bonjour-publish --host=127.0.0.1 --port=8088 --type=some "title of the server"
+  bonjour-publish --host=127.0.0.1 --port=8088 --type=some  "Title of the server"
 
 Options
 
-  --host | -H       Host which your server listens (127.0.0.1)
+  Announcement (bonjour)
   --port | -P       Port which your server listens (8090)
   --type | -T       Type of interface provided by your server (http|smtp..)
+  --host | -H       Host which your server listens (127.0.0.1)
+  --v4 [interface]  If Host option is not provided, announce ipv4 address as host,
+                    instead of your local bonjour hostname.
+                    If interface (eth0, lo..) is provided,
+                    only this interface will be announced.
+  --v6 [interface]  If Host option is not provided, announce ipv6 address as host,
+                    instead of your local bonjour hostname.
+                    If interface (eth0, lo..) is provided,
+                    only this interface will be announced.
 
+  Socket setup (mdns)
   --multicast | -M  Use UDP multicasting
   --interface | -I  Explicitly specify a network interface. Defaults to all. (192.168.0.2)
   --udpport         Set the UDP port (5353)
@@ -22,7 +31,7 @@ Options
   --verbose | -v    Set verbosity. Defaults to * Pass in modules name to debug.
 
 Examples
-  bonjour-publish -H 127.0.0.1 -P 8088 -T rc "hello!"
+  bonjour-publish -H 127.0.0.1 -P 8088 -T http "hello!"
   bonjour-publish -H 127.0.0.1 -P 8088 -T http "I love you,"
   bonjour-publish -L -H 127.0.0.1 -P 8088 -T http "Could you give me your name ?"
   bonjour-publish -L -R -P 8088 -T http "doors"
@@ -42,6 +51,8 @@ var debug = require('@maboiteaspam/set-verbosity')(pkg.name, argv.v || argv.verb
 const host      = argv.host || argv.H || '';
 const port      = argv.port || argv.P || false;
 const type      = argv.type || argv.T || false;
+const v4        = argv.v4 || false;
+const v6        = argv.v6 || false;
 const title     = argv['_'].length && argv['_'][0] || "nop, no title set";
 
 // mdns options
@@ -68,17 +79,68 @@ if (TTL)        mdnsOpts.ttl        = TTL;
 if (loopback)   mdnsOpts.loopback   = loopback;
 if (reuseAddr)  mdnsOpts.reuseAddr  = reuseAddr;
 
-console.log("Options %j", mdnsOpts)
+console.log("Options %j", mdnsOpts);
 
-var bonjour = require('bonjour')(mdnsOpts);
+var announces = [];
+
+if (!host && v4 || v6) {
+  getHostAddresses(
+    (v4 && 'IPv4' || v6 && 'IPv6'),
+    v4 || v6
+  ).forEach(function (addr) {
+    var opts = {
+      name: title,
+      type: type,
+      port: port ,
+      host: addr.address
+    };
+    announces.push(opts)
+  })
+} else {
+  var opts = { name: title, type: type, port: port };
+  if (host) opts.host = host;
+  announces.push(opts)
+}
 
 // advertise your server
-var opts = { name: title, type: type, port: port, host: host };
-if (host) opts.host = host;
-bonjour.publish(opts)
+console.log("announces %j", announces)
+var bonjour = require('bonjour')(mdnsOpts);
+announces.forEach(function (opts, i){
+  bonjour.publish(opts)
+})
+
 
 var tearDown = function (then) {
   bonjour.destroy();
 }
 process.on('beforeExit', tearDown)
 process.on('SIGINT', tearDown)
+
+
+
+
+
+function getHostAddresses (type, ifaceName) {
+  var onlyNonLocal = function (iface) {
+    return !iface.internal;
+  }
+  var onlyThisType = function (iface) {
+    return iface.family===type;
+  }
+  var onlyThisIface = function (iface) {
+    return !ifaceName || iface.name===ifaceName;
+  }
+  return listInterfaces ().filter(onlyNonLocal).filter(onlyThisType).filter(onlyThisType)
+}
+function listInterfaces () {
+  var os = require('os');
+  var ifaces = [];
+  var sysIfaces = os.networkInterfaces();
+  Object.keys(sysIfaces).forEach(function (name) {
+    sysIfaces[name].forEach(function (iface) {
+      iface.interface = name;
+      ifaces.push(iface)
+    })
+  })
+  return ifaces;
+}

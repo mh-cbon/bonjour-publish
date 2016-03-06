@@ -27,6 +27,7 @@ ctrl+c to quit
       --port | -P       Port which your server listens (8090)
       --type | -T       Type of interface provided by your server (http|smtp..)
       --host | -H       Host which your server listens (127.0.0.1)
+      --txt             A JSON object to send as a TXT record.
       --v4 [interface]  If Host option is not provided, announce ipv4 address as host,
                         instead of your local bonjour hostname.
                         If interface (eth0, lo..) is provided,
@@ -52,6 +53,7 @@ ctrl+c to quit
       bonjour-publish -L -H 127.0.0.1 -P 8088 -T http "Could you give me your name ?"
       bonjour-publish -L -R -P 8088 -T http "doors"
       bonjour-publish -L -R -M -I 192.168.0.2 -P 8088 -T http "doors"
+      bonjour-publish --txt '{"password":123}' -P 8088 -T http "doors"
 
     Read more
       Service type must be one described at

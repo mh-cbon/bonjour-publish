@@ -11,6 +11,7 @@ Options
   --port | -P       Port which your server listens (8090)
   --type | -T       Type of interface provided by your server (http|smtp..)
   --host | -H       Host which your server listens (127.0.0.1)
+  --txt             A JSON object to send as a TXT record.
   --v4 [interface]  If Host option is not provided, announce ipv4 address as host,
                     instead of your local bonjour hostname.
                     If interface (eth0, lo..) is provided,
@@ -51,6 +52,7 @@ var debug = require('@maboiteaspam/set-verbosity')(pkg.name, argv.v || argv.verb
 const host      = argv.host || argv.H || '';
 const port      = argv.port || argv.P || false;
 const type      = argv.type || argv.T || false;
+const txt       = (argv.txt && JSON.parse(argv.txt)) || false;
 const v4        = argv.v4 || false;
 const v6        = argv.v6 || false;
 const title     = argv['_'].length && argv['_'][0] || "nop, no title set";
@@ -94,11 +96,13 @@ if (!host && v4 || v6) {
       port: port ,
       host: addr.address
     };
+    if (txt) opts.txt = txt;
     announces.push(opts)
   })
 } else {
   var opts = { name: title, type: type, port: port };
   if (host) opts.host = host;
+  if (txt)  opts.txt  = txt;
   announces.push(opts)
 }
 

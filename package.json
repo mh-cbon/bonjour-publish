@@ -1,6 +1,6 @@
 {
   "name": "@mh-cbon/bonjour-publish",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Publish a service on bonjour",
   "main": "index.js",
   "bin": {
